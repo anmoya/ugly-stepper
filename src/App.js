@@ -1,23 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import "./App.css";
+import Stepper from "./components/stepper/stepper.component";
+import { StepContext } from "./StepContext";
+import Footer from "./components/footer/footer.component";
+import Header from "./components/header/header.component";
+
+// Steps
+import ValidarDocumento from "./components/steps/step1.validar-documento";
 
 function App() {
+  const [step, setStep] = useState({
+    actualStep: 1,
+    start: 1,
+    finish: 3,
+    childrens: {
+      step1: <ValidarDocumento />,
+      step2: "",
+      step3: "",
+    },
+  });
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="App" style={{ padding: "50px" }}>
+      <StepContext.Provider value={{ step, setStep }}>
+        {/* Steper Header */}
+        <Header start={step.start} finish={step.finish} />
+
+        {/* Steps */}
+        <Stepper />
+
+        {/* Steper Footer (buttons to back-forward) */}
+        <Footer />
+      </StepContext.Provider>
     </div>
   );
 }
